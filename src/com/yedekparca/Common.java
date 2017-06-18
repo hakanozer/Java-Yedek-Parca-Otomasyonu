@@ -4,7 +4,7 @@ package com.yedekparca;
 
 public class Common {
     
-    static String aid="", aadi="",asoyadi="", akuladi="",seviye="",atarih="";
+    public static String aid="", aadi="",asoyadi="", akuladi="",seviye="",atarih="";
     
     
    public static String MD5(String md5) {

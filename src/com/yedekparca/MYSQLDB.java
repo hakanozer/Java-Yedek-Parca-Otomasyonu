@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 
 public class MYSQLDB {
@@ -35,6 +36,7 @@ public class MYSQLDB {
             System.out.println("Bağlantı başarılı");
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println("Bağlantı Hatası : " + e);
+            JOptionPane.showMessageDialog(null, "Veritabanı bağlantınızı kontrol ediniz");
         }
         return st;
     }

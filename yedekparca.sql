@@ -1,214 +1,325 @@
-/*
-Navicat MySQL Data Transfer
+-- phpMyAdmin SQL Dump
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
+--
+-- Anamakine: 127.0.0.1
+-- Üretim Zamanı: 18 Haz 2017, 11:54:12
+-- Sunucu sürümü: 10.1.21-MariaDB
+-- PHP Sürümü: 5.6.30
 
-Source Server         : Localhost
-Source Server Version : 100121
-Source Host           : localhost:3306
-Source Database       : yedekparca
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
-Target Server Type    : MYSQL
-Target Server Version : 100121
-File Encoding         : 65001
 
-Date: 2017-06-11 14:23:43
-*/
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
-SET FOREIGN_KEY_CHECKS=0;
+--
+-- Veritabanı: `yedekparca`
+--
 
--- ----------------------------
--- Table structure for admin
--- ----------------------------
-DROP TABLE IF EXISTS `admin`;
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `admin`
+--
+
 CREATE TABLE `admin` (
-  `aid` int(11) NOT NULL AUTO_INCREMENT,
+  `aid` int(11) NOT NULL,
   `aadi` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
   `asoyadi` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
   `akuladi` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
   `asifre` varchar(32) COLLATE utf8_turkish_ci DEFAULT NULL,
   `seviye` int(1) DEFAULT NULL COMMENT 'seviye = 1 Süper admin \r\nseviye = 0 admin',
-  `atarih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`aid`),
-  UNIQUE KEY `kulBensersiz` (`akuladi`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
-
--- ----------------------------
--- Records of admin
--- ----------------------------
-INSERT INTO `admin` VALUES ('1', 'Ali', 'Bilmem', 'ali', '827ccb0eea8a706c4c34a16891f84e7b', '1', '2017-06-11 13:47:47');
-INSERT INTO `admin` VALUES ('2', 'Veli', 'Bilsin', 'veli', '01cfcd4f6b8770febfb40cb906715822', '0', '2017-06-11 14:15:12');
-
--- ----------------------------
--- Table structure for kategori
--- ----------------------------
-DROP TABLE IF EXISTS `kategori`;
-CREATE TABLE `kategori` (
-  `kid` int(11) NOT NULL AUTO_INCREMENT,
-  `kadi` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
-  `ktarih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`kid`)
+  `atarih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
--- ----------------------------
--- Records of kategori
--- ----------------------------
+--
+-- Tablo döküm verisi `admin`
+--
 
--- ----------------------------
--- Table structure for musteri
--- ----------------------------
-DROP TABLE IF EXISTS `musteri`;
+INSERT INTO `admin` (`aid`, `aadi`, `asoyadi`, `akuladi`, `asifre`, `seviye`, `atarih`) VALUES
+(1, 'Ali', 'Bilmem', 'ali', '86318e52f5ed4801abe1d13d509443de', 1, '2017-06-17 07:16:09'),
+(2, 'Veli', 'Bilsin', 'veli', '4799d7258653f1c1ad6f6b6718fb9af5', 0, '2017-06-17 07:16:18');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `kategori`
+--
+
+CREATE TABLE `kategori` (
+  `kid` int(11) NOT NULL,
+  `kadi` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
+  `ktarih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `musteri`
+--
+
 CREATE TABLE `musteri` (
-  `mid` int(11) NOT NULL AUTO_INCREMENT,
+  `mid` int(11) NOT NULL,
   `madi` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
   `msoyadi` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
   `mtelefon` int(10) DEFAULT NULL,
   `mmail` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
   `madres` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
   `mtarih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `aid` int(11) DEFAULT NULL COMMENT 'ekleyen admin id',
-  PRIMARY KEY (`mid`)
+  `aid` int(11) DEFAULT NULL COMMENT 'ekleyen admin id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
--- ----------------------------
--- Records of musteri
--- ----------------------------
+-- --------------------------------------------------------
 
--- ----------------------------
--- Table structure for ozellik
--- ----------------------------
-DROP TABLE IF EXISTS `ozellik`;
+--
+-- Tablo için tablo yapısı `ozellik`
+--
+
 CREATE TABLE `ozellik` (
-  `oid` int(11) NOT NULL AUTO_INCREMENT,
+  `oid` int(11) NOT NULL,
   `okid` int(11) DEFAULT NULL,
   `oadi` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
   `aid` int(11) DEFAULT NULL COMMENT 'özelliği ekleyen admin id ''si',
-  `otarih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`oid`)
+  `otarih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
--- ----------------------------
--- Records of ozellik
--- ----------------------------
+-- --------------------------------------------------------
 
--- ----------------------------
--- Table structure for ozelllikkategori
--- ----------------------------
-DROP TABLE IF EXISTS `ozelllikkategori`;
+--
+-- Tablo için tablo yapısı `ozelllikkategori`
+--
+
 CREATE TABLE `ozelllikkategori` (
-  `okid` int(11) NOT NULL AUTO_INCREMENT,
+  `okid` int(11) NOT NULL,
+  `katid` int(11) NOT NULL,
   `kadi` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
-  `aid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`okid`)
+  `aid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
--- ----------------------------
--- Records of ozelllikkategori
--- ----------------------------
+-- --------------------------------------------------------
 
--- ----------------------------
--- Table structure for profil
--- ----------------------------
-DROP TABLE IF EXISTS `profil`;
+--
+-- Tablo için tablo yapısı `profil`
+--
+
 CREATE TABLE `profil` (
-  `pid` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) NOT NULL,
   `aid` int(11) DEFAULT NULL,
   `tc` int(11) DEFAULT NULL,
   `telefon` int(10) DEFAULT NULL,
   `adres` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
   `cinsiyet` enum('bay','bayan') COLLATE utf8_turkish_ci DEFAULT NULL,
-  `yas` int(11) DEFAULT NULL,
-  PRIMARY KEY (`pid`)
+  `yas` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
--- ----------------------------
--- Records of profil
--- ----------------------------
+-- --------------------------------------------------------
 
--- ----------------------------
--- Table structure for raf
--- ----------------------------
-DROP TABLE IF EXISTS `raf`;
+--
+-- Tablo için tablo yapısı `raf`
+--
+
 CREATE TABLE `raf` (
-  `rid` int(11) NOT NULL AUTO_INCREMENT,
+  `rid` int(11) NOT NULL,
   `radi` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
   `tanım` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL COMMENT 'adres gibi kullanılabilir.',
   `aid` int(11) DEFAULT NULL,
-  `rtarih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`rid`)
+  `rtarih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
--- ----------------------------
--- Records of raf
--- ----------------------------
+-- --------------------------------------------------------
 
--- ----------------------------
--- Table structure for sepet
--- ----------------------------
-DROP TABLE IF EXISTS `sepet`;
+--
+-- Tablo için tablo yapısı `sepet`
+--
+
 CREATE TABLE `sepet` (
-  `seid` int(11) NOT NULL AUTO_INCREMENT,
+  `seid` int(11) NOT NULL,
   `refkodu` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
   `uid` int(11) DEFAULT NULL,
   `adet` int(3) DEFAULT NULL,
-  `starih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`seid`)
+  `starih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
--- ----------------------------
--- Records of sepet
--- ----------------------------
+-- --------------------------------------------------------
 
--- ----------------------------
--- Table structure for siparis
--- ----------------------------
-DROP TABLE IF EXISTS `siparis`;
+--
+-- Tablo için tablo yapısı `siparis`
+--
+
 CREATE TABLE `siparis` (
-  `said` int(11) NOT NULL AUTO_INCREMENT,
+  `said` int(11) NOT NULL,
   `srefkodu` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
   `toplamfiyat` decimal(8,2) DEFAULT NULL,
   `mid` int(11) DEFAULT NULL COMMENT 'müşteri id',
   `aid` int(11) DEFAULT NULL,
-  `satarih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`said`)
+  `satarih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
--- ----------------------------
--- Records of siparis
--- ----------------------------
+-- --------------------------------------------------------
 
--- ----------------------------
--- Table structure for stok
--- ----------------------------
-DROP TABLE IF EXISTS `stok`;
+--
+-- Tablo için tablo yapısı `stok`
+--
+
 CREATE TABLE `stok` (
-  `sid` int(11) NOT NULL AUTO_INCREMENT,
+  `sid` int(11) NOT NULL,
   `rid` int(11) DEFAULT NULL,
   `kid` int(11) DEFAULT NULL COMMENT 'kategori id si',
   `sadet` int(4) DEFAULT NULL COMMENT 'stok sayısı',
   `sfiyat` decimal(6,2) DEFAULT NULL COMMENT 'Ürünün if',
-  `starih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`sid`)
+  `starih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
--- ----------------------------
--- Records of stok
--- ----------------------------
+-- --------------------------------------------------------
 
--- ----------------------------
--- Table structure for urunler
--- ----------------------------
-DROP TABLE IF EXISTS `urunler`;
+--
+-- Tablo için tablo yapısı `urunler`
+--
+
 CREATE TABLE `urunler` (
-  `uid` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
   `kid` int(11) DEFAULT NULL,
   `aid` int(11) DEFAULT NULL,
   `ozellikler` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL COMMENT 'özellikler tablosu içerisindeki id ler',
   `ubaslik` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
   `udetay` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
-  `utarih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`uid`)
+  `utarih` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
--- ----------------------------
--- Records of urunler
--- ----------------------------
-SET FOREIGN_KEY_CHECKS=1;
+--
+-- Dökümü yapılmış tablolar için indeksler
+--
+
+--
+-- Tablo için indeksler `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`aid`),
+  ADD UNIQUE KEY `kulBensersiz` (`akuladi`);
+
+--
+-- Tablo için indeksler `kategori`
+--
+ALTER TABLE `kategori`
+  ADD PRIMARY KEY (`kid`);
+
+--
+-- Tablo için indeksler `musteri`
+--
+ALTER TABLE `musteri`
+  ADD PRIMARY KEY (`mid`);
+
+--
+-- Tablo için indeksler `ozellik`
+--
+ALTER TABLE `ozellik`
+  ADD PRIMARY KEY (`oid`);
+
+--
+-- Tablo için indeksler `ozelllikkategori`
+--
+ALTER TABLE `ozelllikkategori`
+  ADD PRIMARY KEY (`okid`);
+
+--
+-- Tablo için indeksler `profil`
+--
+ALTER TABLE `profil`
+  ADD PRIMARY KEY (`pid`);
+
+--
+-- Tablo için indeksler `raf`
+--
+ALTER TABLE `raf`
+  ADD PRIMARY KEY (`rid`);
+
+--
+-- Tablo için indeksler `sepet`
+--
+ALTER TABLE `sepet`
+  ADD PRIMARY KEY (`seid`);
+
+--
+-- Tablo için indeksler `siparis`
+--
+ALTER TABLE `siparis`
+  ADD PRIMARY KEY (`said`);
+
+--
+-- Tablo için indeksler `stok`
+--
+ALTER TABLE `stok`
+  ADD PRIMARY KEY (`sid`);
+
+--
+-- Tablo için indeksler `urunler`
+--
+ALTER TABLE `urunler`
+  ADD PRIMARY KEY (`uid`);
+
+--
+-- Dökümü yapılmış tablolar için AUTO_INCREMENT değeri
+--
+
+--
+-- Tablo için AUTO_INCREMENT değeri `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- Tablo için AUTO_INCREMENT değeri `kategori`
+--
+ALTER TABLE `kategori`
+  MODIFY `kid` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Tablo için AUTO_INCREMENT değeri `musteri`
+--
+ALTER TABLE `musteri`
+  MODIFY `mid` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Tablo için AUTO_INCREMENT değeri `ozellik`
+--
+ALTER TABLE `ozellik`
+  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Tablo için AUTO_INCREMENT değeri `ozelllikkategori`
+--
+ALTER TABLE `ozelllikkategori`
+  MODIFY `okid` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Tablo için AUTO_INCREMENT değeri `profil`
+--
+ALTER TABLE `profil`
+  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Tablo için AUTO_INCREMENT değeri `raf`
+--
+ALTER TABLE `raf`
+  MODIFY `rid` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Tablo için AUTO_INCREMENT değeri `sepet`
+--
+ALTER TABLE `sepet`
+  MODIFY `seid` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Tablo için AUTO_INCREMENT değeri `siparis`
+--
+ALTER TABLE `siparis`
+  MODIFY `said` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Tablo için AUTO_INCREMENT değeri `stok`
+--
+ALTER TABLE `stok`
+  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Tablo için AUTO_INCREMENT değeri `urunler`
+--
+ALTER TABLE `urunler`
+  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

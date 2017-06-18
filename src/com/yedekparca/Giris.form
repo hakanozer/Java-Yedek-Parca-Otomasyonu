@@ -113,6 +113,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtKulAdi">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="veli"/>
+          </Properties>
           <Events>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtKulAdiKeyPressed"/>
           </Events>
@@ -126,6 +129,9 @@
           </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="txtKulSifre">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="veli"/>
+          </Properties>
           <Events>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtKulSifreKeyPressed"/>
           </Events>

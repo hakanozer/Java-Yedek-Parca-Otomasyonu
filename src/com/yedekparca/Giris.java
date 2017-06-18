@@ -9,6 +9,9 @@ import admin.gorevli.adminGorevli;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Objects;
 import javax.swing.JOptionPane;
 import superr.admin.superAdmin;
 
@@ -23,8 +26,74 @@ public class Giris extends javax.swing.JFrame {
      */
     public Giris() {
         initComponents();
-    }
 
+        ArrayList<Integer> d1 = new ArrayList<>();
+        ArrayList<Integer> d2 = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            d1.add(i);
+        }
+
+        d2.add(0);
+        d2.add(8);
+        d2.add(7);
+        d2.add(6);
+        d2.add(5);
+
+        Collections.sort(d1);
+        Collections.sort(d2);
+
+        int k1 = d1.get(0);
+        int k2 = d2.get(0);
+        for (int i = 0; true; i++) {
+            k1 = d1.get(i);
+            k2 = d2.get(i);
+            if (k1 == k2) {
+                if (d1.get(i + 1) > d2.get(i + 1)) {
+                    k1 = d2.get(i + 1);
+                } else {
+                    k1 = d1.get(i + 1);
+                }
+            }
+            break;
+        }
+
+        // 0,1,2,3,4
+        // 0,5,6,7,8
+        int toplam = k1 + k2;
+        System.out.println("Toplam : " + toplam);
+
+        //int[] dm = new int[1000];
+        ArrayList<Integer> ml = new ArrayList<>();
+        for (int i = 1; i <= 1000; i++) {
+            ml.add(1);
+        }
+
+        // yorumlar
+        /*
+        l : for (int i = 0; true; i++) {
+
+            if (ml.size() > i + 1) {
+                ml.set(i + 1, 0);
+            }
+            for (int j = 0; j < ml.size(); j++) {
+                if (ml.get(j) == 1) {
+                    if (j > 1) {
+                        break l;
+                    } else {
+                        System.out.println("Son Eleman : " + i);
+                    }
+                
+            }
+
+        }
+    }
+        */
+
+        
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,6 +120,7 @@ public class Giris extends javax.swing.JFrame {
 
         jLabel2.setText("Şifre");
 
+        txtKulAdi.setText("veli");
         txtKulAdi.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtKulAdiKeyPressed(evt);
@@ -64,6 +134,7 @@ public class Giris extends javax.swing.JFrame {
             }
         });
 
+        txtKulSifre.setText("veli");
         txtKulSifre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtKulSifreKeyPressed(evt);
@@ -204,16 +275,28 @@ public class Giris extends javax.swing.JFrame {
                 if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+                
+
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Giris.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Giris.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Giris.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Giris.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Giris.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+} catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Giris.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+} catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Giris.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Giris.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
