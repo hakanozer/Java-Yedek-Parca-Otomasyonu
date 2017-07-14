@@ -7,7 +7,15 @@ package admin.gorevli;
 
 import com.yedekparca.Common;
 import com.yedekparca.Giris;
+import com.yedekparca.MYSQLDB;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +28,16 @@ public class adminGorevli extends javax.swing.JFrame {
      */
     public adminGorevli() {
         initComponents();
+        //dtmSonSiparis.addColumn("Siparis No");
+        dtmSonSiparis.addColumn("Müşteri Adı Soyadı");
+        dtmSonSiparis.addColumn("Admin");
+        dtmSonSiparis.addColumn("Toplam Tutar");
+        dtmSonSiparis.addColumn("Tarih");
+
+        fncSonSiparis();
+        lblUnvanBaslik.setText("Admin : " + Common.aadi + " " + Common.asoyadi);
+        timer.schedule(ttask, 0, 5000);
+
     }
 
     /**
@@ -43,8 +61,8 @@ public class adminGorevli extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
+        tblSonSiparisler = new javax.swing.JTable();
+        lblSon10SiparisToplam = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -118,22 +136,22 @@ public class adminGorevli extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Son Satışlar - Bugün");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblSonSiparisler.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "SepetID", "Toplam Tutar", "Musteri Adı", "Tarih"
+                "Siparis ID", "Musteri Adı", "Admin Adı Soyadı", "Toplam Tutar", "Tarih"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblSonSiparisler);
 
-        jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel3.setText("2140 TL");
+        lblSon10SiparisToplam.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblSon10SiparisToplam.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblSon10SiparisToplam.setText("2140 TL");
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
@@ -156,7 +174,7 @@ public class adminGorevli extends javax.swing.JFrame {
                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(26, 26, 26)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(27, 27, 27)
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -166,13 +184,13 @@ public class adminGorevli extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblSon10SiparisToplam, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -187,7 +205,7 @@ public class adminGorevli extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblSon10SiparisToplam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -202,10 +220,9 @@ public class adminGorevli extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblUnvanBaslik, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 760, Short.MAX_VALUE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblUnvanBaslik, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -226,9 +243,38 @@ public class adminGorevli extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    DefaultTableModel dtmSonSiparis = new DefaultTableModel();
+    double son10SiparisToplami = 0;
+
+    public void fncSonSiparis() {
+
+        dtmSonSiparis.getDataVector().removeAllElements();
+        son10SiparisToplami = 0;
+        try {
+            ResultSet rs = new MYSQLDB().baglan().executeQuery("CALL proSonSiparisler");
+            while (rs.next()) {
+                dtmSonSiparis.addRow(new Object[]{rs.getString("madi") + " " + rs.getString("msoyadi"), rs.getString("aadi") + " " + rs.getString("asoyadi"), rs.getDouble("toplamfiyat"), rs.getString("satarih")});
+                son10SiparisToplami = son10SiparisToplami + rs.getDouble("toplamfiyat");
+            }
+            tblSonSiparisler.setModel(dtmSonSiparis);
+        } catch (SQLException ex) {
+            Logger.getLogger(adminGorevli.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        lblSon10SiparisToplam.setText("" + son10SiparisToplami);
+    }
+
+    Timer timer = new Timer();
+    TimerTask ttask = new TimerTask() {
+
+        @Override
+        public void run() {
+            fncSonSiparis();
+        }
+    };
+
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
 
-        int sonuc = JOptionPane.showConfirmDialog(this, "Çıkış yapmak istediğinizden eminmisiniz ?", "Çıkış Yap" ,JOptionPane.YES_NO_OPTION);
+        int sonuc = JOptionPane.showConfirmDialog(this, "Çıkış yapmak istediğinizden eminmisiniz ?", "Çıkış Yap", JOptionPane.YES_NO_OPTION);
         if (sonuc == 0) {
             Giris gr = new Giris();
             gr.setVisible(true);
@@ -240,13 +286,12 @@ public class adminGorevli extends javax.swing.JFrame {
             Common.atarih = null;
             Common.seviye = null;
         }
-
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
 
-       YedekParcaYonetim yd = new YedekParcaYonetim();
-       yd.setVisible(true);
+        YedekParcaYonetim yd = new YedekParcaYonetim();
+        yd.setVisible(true);
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -271,8 +316,8 @@ public class adminGorevli extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-       SatisRaporu st = new SatisRaporu();
-       st.setVisible(true);
+        SatisRaporu st = new SatisRaporu();
+        st.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
@@ -320,11 +365,11 @@ public class adminGorevli extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblSon10SiparisToplam;
     private javax.swing.JLabel lblUnvanBaslik;
+    private javax.swing.JTable tblSonSiparisler;
     // End of variables declaration//GEN-END:variables
 }

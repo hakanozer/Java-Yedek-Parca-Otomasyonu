@@ -5,14 +5,6 @@
  */
 package admin.gorevli;
 
-import com.yedekparca.MYSQLDB;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import javax.swing.table.DefaultTableModel;
-
 /**
  *
  * @author Bireysel
@@ -24,9 +16,6 @@ public class SatisRaporu extends javax.swing.JFrame {
      */
     public SatisRaporu() {
         initComponents();
-        satisRaporuDataGetir();
-        satisRaporuToplamDataGetir();
-
     }
 
     /**
@@ -38,17 +27,16 @@ public class SatisRaporu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        btnRaporla = new javax.swing.JButton();
+        jTextField2 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblSatisRapor = new javax.swing.JTable();
-        lblToplamFiyat = new javax.swing.JLabel();
+        jTable1 = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jDateChooser3 = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Satış Raporu");
@@ -58,16 +46,15 @@ public class SatisRaporu extends javax.swing.JFrame {
 
         jLabel1.setText("Başlangıç");
 
+        jTextField1.setText("jTextField1");
+
         jLabel2.setText("Bitiş");
 
-        btnRaporla.setText("Raporla");
-        btnRaporla.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRaporlaActionPerformed(evt);
-            }
-        });
+        jTextField2.setText("jTextField2");
 
-        tblSatisRapor.setModel(new javax.swing.table.DefaultTableModel(
+        jButton1.setText("Raporla");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -78,11 +65,11 @@ public class SatisRaporu extends javax.swing.JFrame {
                 "SepetID", "Toplam Tutar", "Musteri Adı", "Tarih"
             }
         ));
-        jScrollPane1.setViewportView(tblSatisRapor);
+        jScrollPane1.setViewportView(jTable1);
 
-        lblToplamFiyat.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblToplamFiyat.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lblToplamFiyat.setText("0 TL");
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel3.setText("2140 TL");
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
@@ -99,36 +86,36 @@ public class SatisRaporu extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnRaporla)
+                        .addComponent(jButton1)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblToplamFiyat, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnRaporla, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDateChooser3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblToplamFiyat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(28, 28, 28))
         );
 
@@ -153,107 +140,9 @@ public class SatisRaporu extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    String sumtf = null;
-    private void btnRaporlaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRaporlaActionPerformed
-
-        java.util.Date dt1, dt2;
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        dt1 = jDateChooser2.getDate();
-        dt2 = jDateChooser3.getDate();
-        String strdt1 = (String) sdf.format(dt1);
-        String strdt2 = (String) sdf.format(dt2);
-        
-
-        DefaultTableModel dm = new DefaultTableModel();
-        dm.addColumn("SepetID");
-        dm.addColumn("Toplam Tutar");
-        dm.addColumn("Musteri Adi");
-        dm.addColumn("Tarih");
-
-        String query1 = "select * from siparis where satarih between '" + strdt1 + "' and '" + strdt2 + "' ";
-        String query2 = "select sum(toplamfiyat) as sumtf from siparis where satarih between '" + strdt1 + "' and '" + strdt2 + "' ";
-
-        try {
-            ResultSet rs = new MYSQLDB().baglan().executeQuery(query1);
-
-            while (rs.next()) {
-                dm.addRow(new String[]{rs.getString("srefkodu"),
-                    rs.getString("toplamfiyat"),
-                    rs.getString("mid"),
-                    rs.getString("satarih")});
-            }
-
-            tblSatisRapor.setModel(dm);
-
-        } catch (Exception e) {
-            System.err.println("Data1 getirme hatasi " + e);
-        }
-
-        try {
-            ResultSet rs2 = new MYSQLDB().baglan().executeQuery(query2);
-
-            while (rs2.next()) {
-
-                sumtf = rs2.getString("sumtf");
-            }
-
-            System.out.println("Sum " + sumtf);
-            lblToplamFiyat.setText(sumtf + " TL");
-
-        } catch (Exception e) {
-            System.err.println("Data2 getirme hatasi " + e);
-        }
-    }//GEN-LAST:event_btnRaporlaActionPerformed
-
-    public void satisRaporuDataGetir(){
-        DefaultTableModel dm = new DefaultTableModel();
-        dm.addColumn("SepetID");
-        dm.addColumn("Toplam Tutar");
-        dm.addColumn("Musteri Adi");
-        dm.addColumn("Tarih");
-
-        String query1 = "select * from siparis";
-
-        try {
-            ResultSet rs = new MYSQLDB().baglan().executeQuery(query1);
-
-            while (rs.next()) {
-                dm.addRow(new String[]{rs.getString("srefkodu"),
-                    rs.getString("toplamfiyat"),
-                    rs.getString("mid"),
-                    rs.getString("satarih")});
-            }
-
-            tblSatisRapor.setModel(dm);
-
-        } catch (Exception e) {
-            System.err.println("Data1 getirme hatasi " + e);
-        }
-    }
-    
-    
-    public void satisRaporuToplamDataGetir(){
-        
-        try {
-            String query2 = "select sum(toplamfiyat) as sumtf from siparis ";
-            ResultSet rs2 = new MYSQLDB().baglan().executeQuery(query2);
-            
-            while (rs2.next()) {
-
-                sumtf = rs2.getString("sumtf");
-            }
-
-            System.out.println("Sum " + sumtf);
-            lblToplamFiyat.setText(sumtf + " TL");
-
-        } catch (Exception e) {
-            System.err.println("Data2 getirme hatasi " + e);
-        }
-        
-    }
-    
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -287,16 +176,15 @@ public class SatisRaporu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnRaporla;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
-    private com.toedter.calendar.JDateChooser jDateChooser3;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblToplamFiyat;
-    private javax.swing.JTable tblSatisRapor;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }

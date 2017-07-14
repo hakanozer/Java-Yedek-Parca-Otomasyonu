@@ -5,17 +5,10 @@
  */
 package admin.gorevli;
 
-import com.yedekparca.Common;
-import com.yedekparca.MYSQLDB;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
-
-
+/**
+ *
+ * @author Bireysel
+ */
 public class MusteriYonetimi extends javax.swing.JFrame {
 
     /**
@@ -23,7 +16,6 @@ public class MusteriYonetimi extends javax.swing.JFrame {
      */
     public MusteriYonetimi() {
         initComponents();
-        musteriDataGetir();
     }
 
     /**
@@ -41,18 +33,17 @@ public class MusteriYonetimi extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtAdi = new javax.swing.JTextField();
-        txtSoyadi = new javax.swing.JTextField();
-        txtMail = new javax.swing.JTextField();
-        txtTelefon = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtAdres = new javax.swing.JTextArea();
-        btnEkle = new javax.swing.JButton();
-        btnDuzenle = new javax.swing.JButton();
-        btnSil = new javax.swing.JButton();
-        btnTemizle = new javax.swing.JButton();
+        jTextArea1 = new javax.swing.JTextArea();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblMusteri = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Müşteri Yönetimi");
@@ -70,43 +61,26 @@ public class MusteriYonetimi extends javax.swing.JFrame {
 
         jLabel5.setText("Adres");
 
-        txtAdi.setName(""); // NOI18N
+        jTextField1.setText("jTextField1");
 
-        txtAdres.setColumns(20);
-        txtAdres.setRows(5);
-        jScrollPane1.setViewportView(txtAdres);
+        jTextField2.setText("jTextField2");
 
-        btnEkle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media/Save-icon.png"))); // NOI18N
-        btnEkle.setText("Ekle");
-        btnEkle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEkleActionPerformed(evt);
-            }
-        });
+        jTextField3.setText("jTextField3");
 
-        btnDuzenle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media/update.png"))); // NOI18N
-        btnDuzenle.setText("Düzenle");
-        btnDuzenle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDuzenleActionPerformed(evt);
-            }
-        });
+        jTextField4.setText("jTextField4");
 
-        btnSil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media/delete.png"))); // NOI18N
-        btnSil.setText("Sil");
-        btnSil.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSilActionPerformed(evt);
-            }
-        });
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
 
-        btnTemizle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media/clear.png"))); // NOI18N
-        btnTemizle.setText("Temizle");
-        btnTemizle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTemizleActionPerformed(evt);
-            }
-        });
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media/Save-icon.png"))); // NOI18N
+        jButton1.setText("Ekle");
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media/update.png"))); // NOI18N
+        jButton2.setText("Düzenle");
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media/delete.png"))); // NOI18N
+        jButton3.setText("Sil");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -122,9 +96,9 @@ public class MusteriYonetimi extends javax.swing.JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(30, 30, 30)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtAdi, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                            .addComponent(txtSoyadi)
-                            .addComponent(txtMail))
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                            .addComponent(jTextField2)
+                            .addComponent(jTextField3))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
@@ -132,18 +106,16 @@ public class MusteriYonetimi extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(txtTelefon))
+                                .addComponent(jTextField4))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane1))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnDuzenle)
+                        .addComponent(jButton2)
                         .addGap(18, 18, 18)
-                        .addComponent(btnSil)
+                        .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnTemizle)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEkle)))
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -153,32 +125,29 @@ public class MusteriYonetimi extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel4)
-                    .addComponent(txtAdi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTelefon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jLabel5)
-                            .addComponent(txtSoyadi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnEkle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnTemizle))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnDuzenle)
-                        .addComponent(btnSil)))
-                .addGap(10, 10, 10))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(11, 11, 11))
         );
 
-        tblMusteri.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -189,12 +158,7 @@ public class MusteriYonetimi extends javax.swing.JFrame {
                 "ID", "Admin", "Adı", "Soyadı", "Mail", "Telefon", "Adres", "Tarhi"
             }
         ));
-        tblMusteri.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblMusteriMouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tblMusteri);
+        jScrollPane2.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -221,154 +185,6 @@ public class MusteriYonetimi extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnTemizleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTemizleActionPerformed
-        musteriDataTemizle();
-        txtAdi.requestFocus();
-    }//GEN-LAST:event_btnTemizleActionPerformed
-    
-    private void btnEkleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEkleActionPerformed
-        
-        String adi = txtAdi.getText().trim();
-        String soyadi = txtSoyadi.getText().trim();
-        String mail = txtMail.getText().trim();
-        String telefon = txtTelefon.getText().trim();
-        String adress = txtAdres.getText().trim();
-        
-        String sorgu = "insert into musteri values (null, '"+adi+"', '"+soyadi+"','"+telefon+"','"+mail+"','"+adress+"',now(), '"+Common.aid+"')";
-        MYSQLDB db = new MYSQLDB();
-        
-        try {
-            int sonuc = db.baglan().executeUpdate(sorgu);
-            if (sonuc > 0){
-                musteriDataTemizle();
-                musteriDataGetir();
-            }
-            musteriDataTemizle();
-        } catch (Exception e) {
-            System.err.println("islem basarisiz" + e);
-        }
-    }//GEN-LAST:event_btnEkleActionPerformed
-    
-    int mid = -1;
-    private void tblMusteriMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMusteriMouseClicked
-        int row = tblMusteri.getSelectedRow();
-        mid = Integer.valueOf(String.valueOf(tblMusteri.getValueAt(row, 0)));
-        String ad = "" + tblMusteri.getValueAt(row, 2);
-        String soyad = "" + tblMusteri.getValueAt(row, 3);
-        String telefon = "" + tblMusteri.getValueAt(row, 4);
-        String mail = "" + tblMusteri.getValueAt(row, 5);
-        String adres = "" + tblMusteri.getValueAt(row, 6);
-        txtAdi.setText(ad);
-        txtSoyadi.setText(soyad);
-        txtTelefon.setText(telefon);
-        txtMail.setText(mail);
-        txtAdres.setText(adres);
-    }//GEN-LAST:event_tblMusteriMouseClicked
-
-    private void btnDuzenleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDuzenleActionPerformed
-        
-        if (mid > 0) {
-            try {
-                String adi = txtAdi.getText().trim();
-                String soyadi = txtSoyadi.getText().trim();
-                String mail = txtMail.getText().trim();
-                String telefon = txtTelefon.getText().trim();
-                String adres = txtAdres.getText().trim();
-                
-                String sorgu = "update musteri set madi = '"+adi+"', msoyadi = '"+soyadi+"', mtelefon = '"+telefon+"', mmail = '"+mail+"', madres = '"+adres+"' where mid = '" +mid+"' ";
-                MYSQLDB db = new MYSQLDB();
-                int sonuc = db.baglan().executeUpdate(sorgu);
-                
-                if (sonuc > 0) {
-                    JOptionPane.showMessageDialog(this, "Kayit Guncellendi");
-                    musteriDataGetir();
-                    musteriDataTemizle();
-                }
-                
-            } catch (Exception e) {
-                System.err.println("Duzenleme Hatasi: " + e );
-            }
-            
-        }
-    }//GEN-LAST:event_btnDuzenleActionPerformed
-
-    private void btnSilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSilActionPerformed
-        
-        if (mid > 0) {
-            String sorguSil = "delete from musteri where mid = '"+mid+"' ";
-            MYSQLDB db = new MYSQLDB();
-            
-            try {
-                int sonuc = db.baglan().executeUpdate(sorguSil);
-                if (sonuc > 0) {
-                    JOptionPane.showMessageDialog(this, "Silme islemi basarili");
-                    mid = -1;
-                    musteriDataGetir();
-                    musteriDataTemizle();
-                }
-                
-            } catch (Exception e) {
-                System.err.println("Sql Hatasi " + e);
-            }
-            
-        }else{
-            JOptionPane.showMessageDialog(this, "Lutfen secim yapiniz");
-        }
-
-
-
-
-
-
-
-
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSilActionPerformed
-
-    //-------------------------------------------------------------------------------------------------------------------------------
-    public void musteriDataTemizle(){
-        txtAdi.setText(null);
-        txtSoyadi.setText(null);
-        txtMail.setText(null);
-        txtTelefon.setText(null);
-        txtAdres.setText(null);
-    }
-    //-------------------------------------------------------------------------------------------------------------------------------
-    public void musteriDataGetir(){
-        DefaultTableModel dm = new DefaultTableModel();
-        dm.addColumn("ID");
-        dm.addColumn("Admin");
-        dm.addColumn("Adi");
-        dm.addColumn("Soyadi");
-        dm.addColumn("Telefon");
-        dm.addColumn("Mail");
-        dm.addColumn("Adres");
-        dm.addColumn("Tarih");
-        try {
-            ResultSet rs = new MYSQLDB().baglan().executeQuery("select * from musteri");
-            while (rs.next()) {
-                dm.addRow(new String[]{rs.getString("mid"), 
-                    rs.getString("aid"), 
-                    rs.getString("madi"), 
-                    rs.getString("msoyadi"), 
-                    rs.getString("mtelefon"), 
-                    rs.getString("mmail"), 
-                    rs.getString("madres"), 
-                    rs.getString("mtarih")});
-            }
-            tblMusteri.setModel(dm);
-        } catch (SQLException ex) {
-            System.err.println("Data getirme hatasi: " + ex);
-        }
-    }
-    //-------------------------------------------------------------------------------------------------------------------------------
-
-    //-------------------------------------------------------------------------------------------------------------------------------
-    
-    
-    //-------------------------------------------------------------------------------------------------------------------------------
-    
     /**
      * @param args the command line arguments
      */
@@ -405,10 +221,9 @@ public class MusteriYonetimi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDuzenle;
-    private javax.swing.JButton btnEkle;
-    private javax.swing.JButton btnSil;
-    private javax.swing.JButton btnTemizle;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -417,11 +232,11 @@ public class MusteriYonetimi extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable tblMusteri;
-    private javax.swing.JTextField txtAdi;
-    private javax.swing.JTextArea txtAdres;
-    private javax.swing.JTextField txtMail;
-    private javax.swing.JTextField txtSoyadi;
-    private javax.swing.JTextField txtTelefon;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }
