@@ -37,7 +37,7 @@ public class Satis extends javax.swing.JFrame {
                 lmKategori.addElement(rs.getString("kadi"));
                 alKategori.add(rs.getInt("kid"));
             }
-            System.out.println("Kategori Id Listesi : " + alKategori);
+//            System.out.println("Kategori Id Listesi : " + alKategori);
             listKategori.setModel(lmKategori);
         } catch (SQLException ex) {
             Logger.getLogger(Satis.class.getName()).log(Level.SEVERE, null, ex);
@@ -63,7 +63,7 @@ public class Satis extends javax.swing.JFrame {
                 alParti.add(rs.getInt("pid"));
             }
 
-            System.out.println("Ürün Id Listesi : " + alUrun);
+//            System.out.println("Ürün Id Listesi : " + alUrun);
             listUrun.setModel(lmUrun);
         } catch (SQLException ex) {
             Logger.getLogger(Satis.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,7 +82,7 @@ public class Satis extends javax.swing.JFrame {
                 cbmMusteri.addElement(rs.getString("madi") + " " + rs.getString("msoyadi"));
                 alMusteri.add(rs.getInt("mid"));
             }
-            System.out.println("Müsteri Id Listesi : " + alMusteri);
+//            System.out.println("Müsteri Id Listesi : " + alMusteri);
             cbMusteri.setModel(cbmMusteri);
         } catch (SQLException ex) {
             Logger.getLogger(Satis.class.getName()).log(Level.SEVERE, null, ex);
@@ -94,13 +94,15 @@ public class Satis extends javax.swing.JFrame {
 
     public void fncStokFiyatGetir() {
         urunToplamFiyat = 0;
+        cbStok.setEnabled(true);
         try {
+//            System.out.println(alStok);
             ResultSet rs = new MYSQLDB().baglan().executeQuery("CALL proStokFiyatGetir('" + alStok.get(listUrun.getSelectedIndex()) + "')");
             if (rs.next()) {
                 lblStok.setText(rs.getString("sadet"));
                 lblBirimFiyat.setText(rs.getString("sfiyat"));
                 cbStok.removeAllItems();
-                for (int i = 1; i <= Integer.valueOf(lblStok.getText()); i++) {
+                for (int i = 1; i <= Integer.valueOf(rs.getString("sadet")); i++) {
                     cbStok.addItem(String.valueOf(i));
                 }
             }
@@ -121,17 +123,25 @@ public class Satis extends javax.swing.JFrame {
             String sorgu = "CALL proSepetEkle(" + alUrun.get(listUrun.getSelectedIndex()) + "," + cbStok.getSelectedItem() + ",'" + dateNow + "'," + lblUrunToplamFiyat.getText() + " , " + alParti.get(listUrun.getSelectedIndex()) + " )";
             int sonuc = new MYSQLDB().baglan().executeUpdate(sorgu);
             sonEklenenData = listUrun.getSelectedIndex();
-
+            
         } catch (SQLException ex) {
+           
             Logger.getLogger(Satis.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
+    
+   
+    
+    
     ArrayList<Integer> alSepet = new ArrayList<>();
     ArrayList<Double> alSepetToplamFiyat = new ArrayList<>();
     ArrayList<Integer> alSepetStokId = new ArrayList<>();
+    ArrayList<Integer> alSepetUrunId = new ArrayList<>();
+    ArrayList<Integer> alSepetPartiId = new ArrayList<>();
 
+    
     public void fncSepetGetir() {
         DefaultTableModel dtmSepet = new DefaultTableModel();
         //dtmSepet.addColumn("Id");
@@ -149,6 +159,8 @@ public class Satis extends javax.swing.JFrame {
                 alSepetToplamFiyat.add(rs.getDouble("fiyat"));
                 alSepet.add(rs.getInt("seid"));
                 alSepetStokId.add(rs.getInt("sid"));
+                alSepetUrunId.add(rs.getInt("uid"));
+                alSepetPartiId.add(rs.getInt("pid"));
                 lblReferansKodu.setText("Referans Kodu : " + rs.getString("refkodu"));
             }
             tblSepet.setModel(dtmSepet);
@@ -172,6 +184,9 @@ public class Satis extends javax.swing.JFrame {
             if (rs.next()) {
                 lblSepetToplam.setText(rs.getString("SUM(fiyat)"));
             }
+            else{
+                lblSepetToplam.setText("--");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Satis.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -179,7 +194,7 @@ public class Satis extends javax.swing.JFrame {
 
     public void fncSepetSil() {
         try {
-            int sonuc = new MYSQLDB().baglan().executeUpdate("CALL proSepetUrunSilme(" + alSepet.get(tblSepet.getSelectedRow()) + ")");
+            int sonuc = new MYSQLDB().baglan().executeUpdate("CALL proSepetUrunDus("+ alSepetUrunId.get(tblSepet.getSelectedRow()) +", "+alSepetPartiId.get(tblSepet.getSelectedRow())+" )");
             if (sonuc > 0) {
                 JOptionPane.showMessageDialog(this, "Silme Başarılı");
             }
@@ -214,7 +229,7 @@ public class Satis extends javax.swing.JFrame {
                 alStok.add(rs.getInt("sid"));
                 alParti.add(rs.getInt("pid"));
             }
-            System.out.println("Ürün Id Listesi : " + alUrun);
+//            System.out.println("Ürün Id Listesi : " + alUrun);
             listUrun.setModel(lmUrun);
         } catch (SQLException ex) {
             Logger.getLogger(Satis.class.getName()).log(Level.SEVERE, null, ex);
@@ -536,7 +551,7 @@ public class Satis extends javax.swing.JFrame {
     }//GEN-LAST:event_listUrunMouseReleased
 
     private void cbStokİtemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbStokİtemStateChanged
-
+        
     }//GEN-LAST:event_cbStokİtemStateChanged
 
     private void cbStokMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbStokMouseReleased
@@ -548,7 +563,7 @@ public class Satis extends javax.swing.JFrame {
     }//GEN-LAST:event_cbStokMousePressed
 
     private void cbStokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStokActionPerformed
-        if (!"0".equals(lblStok.getText())) {
+        if (!(cbStok.getItemCount() == 0)) {
             urunToplamFiyat = Integer.valueOf((String) cbStok.getSelectedItem()) * Double.valueOf(lblBirimFiyat.getText());
             lblUrunToplamFiyat.setText(String.valueOf(urunToplamFiyat));
         } else {
@@ -581,6 +596,7 @@ public class Satis extends javax.swing.JFrame {
         fncUrunGetir();
         fncSepetToplam();
         listUrun.setSelectedIndex(sonEklenenData);
+        fncStokFiyatGetir();
     }//GEN-LAST:event_btnUrunSilActionPerformed
 
     private void btnSiparisTamamlaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiparisTamamlaActionPerformed
@@ -605,12 +621,12 @@ public class Satis extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        System.out.println("tblSepet.getRowCount() : " + tblSepet.getRowCount());
+//        System.out.println("tblSepet.getRowCount() : " + tblSepet.getRowCount());
         if (tblSepet.getRowCount() > 0) {
             int cevap = JOptionPane.showConfirmDialog(this, "Sepette ürün var çıkış yapmak istediğinize emin misiniz?", "Çıkış", 0);
-            System.out.println("cevap : " + cevap);
+//            System.out.println("cevap : " + cevap);
             if (cevap == 0) {
-                System.out.println(alSepet);
+//                System.out.println(alSepet);
                 for (Integer item : alSepet) {
                     try {
                         ResultSet rs = new MYSQLDB().baglan().executeQuery("CALL proSepetStokGetir(" + item + ")");

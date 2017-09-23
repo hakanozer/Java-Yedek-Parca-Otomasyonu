@@ -16,7 +16,7 @@ public class MYSQLDB {
     
     String dbName = "yedekparca";
     String dbUser = "admin";
-    String dbPass = "123456";
+    String dbPass = "admin";
     
     Connection con = null;
     Statement st = null;
