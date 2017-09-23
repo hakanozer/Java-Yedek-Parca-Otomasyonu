@@ -626,16 +626,13 @@ public class Satis extends javax.swing.JFrame {
             int cevap = JOptionPane.showConfirmDialog(this, "Sepette ürün var çıkış yapmak istediğinize emin misiniz?", "Çıkış", 0);
 //            System.out.println("cevap : " + cevap);
             if (cevap == 0) {
-//                System.out.println(alSepet);
-                for (Integer item : alSepet) {
-                    try {
-                        ResultSet rs = new MYSQLDB().baglan().executeQuery("CALL proSepetStokGetir(" + item + ")");
-                        while (rs.next()) {
-                            int sonuc = new MYSQLDB().baglan().executeUpdate("CALL proStokEkle(" + rs.getInt("sid") + ", " + rs.getInt("adet") + ")");
-                        }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(Satis.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    ResultSet rs = new MYSQLDB().baglan().executeQuery("CALL proSepetGetir('" + dateNow + "')");
+                     
+                    while (rs.next()) {
+                        int sonuc = new MYSQLDB().baglan().executeUpdate("CALL proStokEkle(" + rs.getInt("sid") + ", "+ rs.getInt("adet")+")");
                     }
+                } catch (Exception e) {
                 }
                 this.setVisible(false);
             } else if (cevap == 1) {
