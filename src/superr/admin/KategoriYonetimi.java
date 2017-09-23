@@ -5,6 +5,12 @@
  */
 package superr.admin;
 
+import com.yedekparca.MYSQLDB;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Bireysel
@@ -15,7 +21,8 @@ public class KategoriYonetimi extends javax.swing.JFrame {
      * Creates new form KategoriYonetimi
      */
     public KategoriYonetimi() {
-        initComponents();
+        initComponents(); 
+        dataGetir();
     }
 
     /**
@@ -44,16 +51,29 @@ public class KategoriYonetimi extends javax.swing.JFrame {
 
         jLabel1.setText("Kategori Başlık");
 
-        jTextField1.setText("jTextField1");
-
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media/delete.png"))); // NOI18N
         jButton2.setText("Sil");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media/update.png"))); // NOI18N
         jButton3.setText("Düzenle");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media/Save-icon.png"))); // NOI18N
         jButton1.setText("Kaydet");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -102,6 +122,11 @@ public class KategoriYonetimi extends javax.swing.JFrame {
                 "ID", "Başlık", "Tarih"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -131,6 +156,98 @@ public class KategoriYonetimi extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here: jTextField1
+          String baslik = jTextField1.getText().trim();
+          
+        String sorgu = "insert into kategori (kid, kadi ) values(null, '" + baslik + "')";
+       
+        MYSQLDB db = new MYSQLDB();
+         try { 
+            int sonuc = db.baglan().executeUpdate(sorgu);
+            if (sonuc > 0) {
+                JOptionPane.showMessageDialog(this, "Ekleme işlemi başarılı");
+                dataGetir();
+            }
+        } catch (SQLException ex) {
+            System.err.println("yazma Hatası : " + ex);
+        }  
+ 
+    }//GEN-LAST:event_jButton1ActionPerformed
+ int id = -1;
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        
+        int row = jTable1.getSelectedRow();
+        Object ob = jTable1.getValueAt(row, 0); 
+        id = Integer.valueOf(String.valueOf(ob));
+        String kadi = ""+jTable1.getValueAt(row, 1);
+        jTextField1.setText(kadi);
+        
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+         // silme islemi
+         if (id > 0) {
+            try {
+                // silme işlemini yap
+                MYSQLDB db = new MYSQLDB();
+                String sorgu = "delete from kategori where kid = '" + id + "' ";
+                int sonuc = db.baglan().executeUpdate(sorgu);
+                if (sonuc > 0) {
+                    id = -1;
+                    JOptionPane.showMessageDialog(this, "Silme işlemi Başarılı");
+                    dataGetir();
+                }
+            } catch (SQLException ex) {
+                System.err.println("Silme Hatası : " + ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Lütfen Seçim Yapınız !");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+         // duzenle
+          if (id > 0) {
+            
+            try {
+                String baslik = jTextField1.getText().trim();
+               
+                String sorgu = "update kategori set kadi = '"+baslik+"' where kid = '"+id+"' ";
+                MYSQLDB db = new MYSQLDB();
+                int sonuc = db.baglan().executeUpdate(sorgu);
+                if (sonuc > 0 ) {
+                    JOptionPane.showMessageDialog(this, "Düzenleme Başarılı !");
+                    dataGetir();
+                }
+            } catch (SQLException ex) {
+                System.err.println("Düzenleme Hatası : " + ex);
+            }
+            
+        }else {
+            JOptionPane.showMessageDialog(this, "Lütfen Seçim Yapınız !");
+        }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+ public void dataGetir() {
+
+        try {
+            DefaultTableModel dm = new DefaultTableModel();
+            dm.addColumn("ID");
+            dm.addColumn("Kategori Adı");
+            dm.addColumn("Tarih"); 
+
+            String sorgu = "select *from kategori";
+            ResultSet rs = new MYSQLDB().baglan().executeQuery(sorgu);
+            while (rs.next()) {
+                dm.addRow(new String[]{rs.getString("kid"), rs.getString("kadi"), rs.getString("ktarih")});
+            }
+            jTable1.setModel(dm);
+        } catch (Exception e) {
+            System.err.println("Data getirme hatası : " + e);
+        }
+    }
     /**
      * @param args the command line arguments
      */
