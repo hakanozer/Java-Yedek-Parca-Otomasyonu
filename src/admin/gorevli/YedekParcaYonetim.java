@@ -5,17 +5,109 @@
  */
 package admin.gorevli;
 
+import com.yedekparca.Common;
+import com.yedekparca.MYSQLDB;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Bireysel
  */
 public class YedekParcaYonetim extends javax.swing.JFrame {
 
-    /**
-     * Creates new form YedekParcaYonetim
-     */
+    ArrayList<String> kategorils = new ArrayList<>();
+    ArrayList<String> rafls = new ArrayList<>();
+    ArrayList<String> ozellilLs = new ArrayList<>();
+     ArrayList<String> ozellikAltLs = new ArrayList<>();
+
     public YedekParcaYonetim() {
         initComponents();
+
+        UstKategoriGetir();
+        OzellikKategoriGetir();
+        OzellikGetir();
+        AdetGetir();
+        RafGetir();
+        ListiDoldur();
+    }
+    int id = -1;
+
+    private void UstKategoriGetir() {
+
+        try {
+            kategorils.clear();
+            String sorgu = "select *from kategori";
+            ResultSet rs = new MYSQLDB().baglan().executeQuery(sorgu);
+            while (rs.next()) {
+                String name = rs.getString("kadi");
+                ustKategori.addItem(name);
+                comboOzellikAnaKategori.addItem(name);
+                kategorils.add(rs.getString("kid"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Hata" + e);
+        }
+    }
+
+    private void OzellikKategoriGetir() {
+
+        try {
+            ComboOzellikKategori.removeAllItems();
+            String sorgu = "select *from ozelllikkategori";
+            ResultSet rs = new MYSQLDB().baglan().executeQuery(sorgu);
+            while (rs.next()) {
+                String oname = rs.getString("kadi");
+                ComboOzellikKategori.addItem(oname);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Hata" + e);
+        }
+    }
+
+    private void OzellikGetir() {
+        ozellikAltLs.clear();
+        try {
+
+            String sorgu = "select *from ozelllikkategori";
+            ResultSet rs = new MYSQLDB().baglan().executeQuery(sorgu);
+            while (rs.next()) {
+                String okname = rs.getString("kadi");
+                ozellikKategoriUstid.addItem(okname);
+                ozellikAltLs.add(rs.getString("okid"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Hata" + e);
+        }
+    }
+
+    private void RafGetir() {
+
+        try {
+            rafls.clear();
+            String sorgu = "select *from raf";
+            ResultSet rs = new MYSQLDB().baglan().executeQuery(sorgu);
+            while (rs.next()) {
+                String rname = rs.getString("radi");
+                comboRaf.addItem(rname);
+                rafls.add(rs.getString("rid"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Hata" + e);
+        }
+    }
+
+    private void AdetGetir() {
+
+        for (int is = 1; is < 10; is++) {
+            comboAdet.addItem("" + is);
+        }
     }
 
     /**
@@ -32,35 +124,35 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        txtDetay = new javax.swing.JTextArea();
+        txtBaslik = new javax.swing.JTextField();
+        ustKategori = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        ComboOzellikKategori = new javax.swing.JComboBox<>();
         jScrollPane4 = new javax.swing.JScrollPane();
         jList3 = new javax.swing.JList<>();
         jLabel9 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
-        jComboBox5 = new javax.swing.JComboBox<>();
+        comboAdet = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jComboBox6 = new javax.swing.JComboBox<>();
-        jTextField4 = new javax.swing.JTextField();
+        comboRaf = new javax.swing.JComboBox<>();
+        txtFiyat = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
+        comboOzellikAnaKategori = new javax.swing.JComboBox<>();
+        ozellikKategoriAdi = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jButton3 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        ozellikKategoriUstid = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        ozellikAltAdi = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
@@ -79,13 +171,16 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
 
         jLabel3.setText("Detay");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtDetay.setColumns(20);
+        txtDetay.setRows(5);
+        jScrollPane1.setViewportView(txtDetay);
 
-        jTextField1.setText("jTextField1");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ustKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seçiniz" }));
+        ustKategori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ustKategoriActionPerformed(evt);
+            }
+        });
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media/Save-icon.png"))); // NOI18N
         jButton1.setText("Kaydet");
@@ -97,7 +192,12 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
 
         jLabel4.setText("Özellik Kategori");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ComboOzellikKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seçiniz" }));
+        ComboOzellikKategori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboOzellikKategoriActionPerformed(evt);
+            }
+        });
 
         jList3.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -117,15 +217,13 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
             }
         });
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboAdet.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seçiniz" }));
 
         jLabel10.setText("Adet");
 
         jLabel11.setText("Raf");
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jTextField4.setText("jTextField2");
+        comboRaf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seçiniz" }));
 
         jLabel12.setText("Fiyat");
 
@@ -139,19 +237,19 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField4))
+                        .addComponent(txtFiyat))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox6, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(comboRaf, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(comboAdet, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(ustKategori, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(30, 30, 30)
@@ -171,8 +269,8 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
                         .addComponent(jLabel9)
                         .addGap(0, 64, Short.MAX_VALUE))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField1)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtBaslik)
+                    .addComponent(ComboOzellikKategori, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -182,13 +280,13 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBaslik, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ustKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ComboOzellikKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
@@ -203,15 +301,15 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboAdet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
-                            .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboRaf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtFiyat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
@@ -222,24 +320,27 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
 
         jLabel5.setText("Ana Kategori");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jTextField2.setText("jTextField2");
+        comboOzellikAnaKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seçiniz" }));
 
         jLabel6.setText("Özellik Kategori");
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media/Save-icon.png"))); // NOI18N
         jButton2.setText("Kaydet");
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
         });
+
         jScrollPane2.setViewportView(jList1);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media/delete.png"))); // NOI18N
         jButton3.setText("Sil");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -256,8 +357,8 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField2)
-                            .addComponent(jComboBox3, 0, 205, Short.MAX_VALUE)))
+                            .addComponent(ozellikKategoriAdi)
+                            .addComponent(comboOzellikAnaKategori, 0, 205, Short.MAX_VALUE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
@@ -270,10 +371,10 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboOzellikAnaKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ozellikKategoriAdi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -286,11 +387,14 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Alt Özellikler Yönetimi"));
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ozellikKategoriUstid.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seçiniz" }));
+        ozellikKategoriUstid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ozellikKategoriUstidActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Özellik Kategori");
-
-        jTextField3.setText("jTextField2");
 
         jLabel8.setText("Özellik Adı");
 
@@ -303,9 +407,19 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media/Save-icon.png"))); // NOI18N
         jButton7.setText("Kaydet");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media/delete.png"))); // NOI18N
         jButton6.setText("Sil");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -322,8 +436,8 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
                             .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField3)
-                            .addComponent(jComboBox4, 0, 205, Short.MAX_VALUE)))
+                            .addComponent(ozellikAltAdi)
+                            .addComponent(ozellikKategoriUstid, 0, 205, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(jButton6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -336,10 +450,10 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ozellikKategoriUstid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ozellikAltAdi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -381,12 +495,39 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      
+        //Kaydet
+
+        try {
+            /*
+                String OzellikKategori = ComboOzellikKategori.getText().trim();
+             */
+            String adet = (String) comboAdet.getSelectedItem();
+            String raf = rafls.get(comboRaf.getSelectedIndex() - 1);
+            String ustKat = kategorils.get(ustKategori.getSelectedIndex() - 1);
+            String baslik = txtBaslik.getText().trim();
+            String detay = txtDetay.getText().trim();
+            String fiyat = txtFiyat.getText().trim();
+            int aid = 1;
+            String ozellikler = "1";
+
+            String sorgu = "insert into urunler (uid,kid,aid,ozellikler,ubaslik,udetay) values(null, '" + ustKat + "', '" + aid + "', '" + ozellikler + "', '" + baslik + "', '" + detay + "')";
+
+            MYSQLDB db = new MYSQLDB();
+            int sonuc = db.baglan().executeUpdate(sorgu);
+            if (sonuc > 0) {
+                JOptionPane.showMessageDialog(this, "Kayit Başarılı !");
+
+            }
+        } catch (SQLException ex) {
+            System.err.println("Kayit Hatası : " + ex);
+        }
+
+        /*
         int[] dizi = jList3.getSelectedIndices();
         for (int i : dizi) {
             System.out.println("Seçilan : " + i);
         }
-        
+         */
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -394,8 +535,151 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
         YedekParcaDuzenle ydz = new YedekParcaDuzenle();
         ydz.setVisible(true);
         this.setVisible(false);
-        
+
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //Ozellik kategori ekle
+
+        try {
+            String ust = kategorils.get(comboOzellikAnaKategori.getSelectedIndex() - 1);
+            String adi = ozellikKategoriAdi.getText().trim();
+            String aid = Common.aid;
+            String sorgu = "insert into ozelllikkategori (okid,katid,kadi,aid) values(null, '" + ust + "', '" + adi + "', '" + aid + "')";
+
+            MYSQLDB db = new MYSQLDB();
+            int sonuc = db.baglan().executeUpdate(sorgu);
+            if (sonuc > 0) {
+                JOptionPane.showMessageDialog(this, "Kayit Başarılı !");
+                ListiDoldur();
+                OzellikKategoriGetir();
+            }
+        } catch (SQLException ex) {
+            System.err.println("Kayit Hatası : " + ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // silme islemi
+        if (id > 0) {
+            try {
+                // silme işlemini yap
+                MYSQLDB db = new MYSQLDB();
+                String sorgu = "delete from ozelllikkategori where okid = '" + id + "' ";
+                int sonuc = db.baglan().executeUpdate(sorgu);
+                if (sonuc > 0) {
+                    id = -1;
+                    JOptionPane.showMessageDialog(this, "Silme işlemi Başarılı");
+                }
+            } catch (SQLException ex) {
+                System.err.println("Silme Hatası : " + ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Lütfen Seçim Yapınız !");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // ozellik alt kategori ekle
+        try {
+            String ustid = ozellilLs.get(ozellikKategoriUstid.getSelectedIndex() - 1);
+            String oadi = ozellikAltAdi.getText().trim();
+            String aid = Common.aid;
+            String sorgu = "insert into ozellik (oid,okid,oadi,aid) values(null, '" + ustid + "', '" + oadi + "', '" + aid + "')";
+
+            MYSQLDB db = new MYSQLDB();
+            int sonuc = db.baglan().executeUpdate(sorgu);
+            if (sonuc > 0) {
+                JOptionPane.showMessageDialog(this, "Kayit Başarılı !");
+                ozellikAltAdi.setText("");
+            }
+        } catch (SQLException ex) {
+            System.err.println("Kayit Hatası : " + ex);
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    
+    public void altOzellikGetir(String okid) {
+        DefaultListModel<String> dlmOzellikAlt = new DefaultListModel<>();
+        
+        try {
+            ResultSet rs = new MYSQLDB().baglan().executeQuery("select *from ozellik where okid = '"+okid+"'");
+            while (rs.next()) {                
+                dlmOzellikAlt.addElement(rs.getString("oadi"));
+            }
+            jList2.setModel(dlmOzellikAlt);
+        } catch (Exception e) {
+        }
+    }
+    
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // sil
+        if (id > 0) {
+            try {
+                // silme işlemini yap
+                MYSQLDB db = new MYSQLDB();
+                String sorgu = "delete from ozellik where oid = '" + id + "' ";
+                int sonuc = db.baglan().executeUpdate(sorgu);
+                if (sonuc > 0) {
+                    id = -1;
+                    JOptionPane.showMessageDialog(this, "Silme işlemi Başarılı");
+                }
+            } catch (SQLException ex) {
+                System.err.println("Silme Hatası : " + ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Lütfen Seçim Yapınız !");
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void ustKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ustKategoriActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ustKategoriActionPerformed
+
+    private void ComboOzellikKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboOzellikKategoriActionPerformed
+
+        DefaultListModel<String> ozellikAltModel = new DefaultListModel<>();
+        try {
+            if (ozellilLs.size() > 0) {
+                String ozellikID = ozellilLs.get(ComboOzellikKategori.getSelectedIndex());
+                ResultSet rs = new MYSQLDB().baglan().executeQuery("select *from ozellik where okid = '"+ozellikID+"'");
+                while(rs.next()) {
+                   ozellikAltModel.addElement(rs.getString("oadi"));
+                }
+                jList3.setModel(ozellikAltModel);
+            }
+        } catch (Exception e) {
+            System.err.println("Hata : " + e);
+        }
+
+
+    }//GEN-LAST:event_ComboOzellikKategoriActionPerformed
+
+    private void ozellikKategoriUstidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ozellikKategoriUstidActionPerformed
+
+        altOzellikGetir(ozellikAltLs.get(ozellikKategoriUstid.getSelectedIndex() - 1));
+        
+    }//GEN-LAST:event_ozellikKategoriUstidActionPerformed
+
+    public void ListiDoldur() {
+
+        try {
+            ozellilLs.clear();
+            DefaultListModel<String> lim = new DefaultListModel<>();
+
+            String sorgu = "select * from ozelllikkategori";
+            ResultSet rs = new MYSQLDB().baglan().executeQuery(sorgu);
+            while (rs.next()) {
+                lim.addElement(rs.getString("kadi"));
+                ozellilLs.add(rs.getString("okid"));
+            }
+            jList1.setModel(lim);
+        } catch (SQLException e) {
+            System.err.println("Data getirme hatası : " + e);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -433,18 +717,16 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> ComboOzellikKategori;
+    private javax.swing.JComboBox<String> comboAdet;
+    private javax.swing.JComboBox<String> comboOzellikAnaKategori;
+    private javax.swing.JComboBox<String> comboRaf;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -467,10 +749,12 @@ public class YedekParcaYonetim extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField ozellikAltAdi;
+    private javax.swing.JTextField ozellikKategoriAdi;
+    private javax.swing.JComboBox<String> ozellikKategoriUstid;
+    private javax.swing.JTextField txtBaslik;
+    private javax.swing.JTextArea txtDetay;
+    private javax.swing.JTextField txtFiyat;
+    private javax.swing.JComboBox<String> ustKategori;
     // End of variables declaration//GEN-END:variables
 }
